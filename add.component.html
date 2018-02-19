@@ -1,0 +1,55 @@
+﻿<div class="d-flex m-4 flex-column align-items-center">
+  <div class="section-title__text">{{addTitle}}</div>
+  <div class="section-title__underline m-2"></div>
+</div>
+
+<form #addForm="ngForm" class="d-flex m-1 flex-column justify-content-center align-items-center">
+
+  <div class="form-group d-flex flex-column align-items-center form__group">
+    <div>
+      <div class="d-flex justify-content-start input__label">
+        {{addressSearchLabel}}
+      </div>
+      <div class="pt-2">
+        <input type="text" class="form-control Field" geo-autocomplete />
+      </div>
+    </div>
+
+    <div>
+      <div class="d-flex justify-content-start input__label">
+        {{addressLabel}}
+      </div>
+      <div class="pt-2">
+        <input required type="text" ngModel name="addressField" [(ngModel)]="eventsService.editor.mapAddress.line_1" #addressField="ngModel" class="form-control Field" placeholder="{{addressPlace}}" (blur)="addressChanged()" />
+      </div>
+      <div *ngIf="addressField.touched && addressField.invalid" class="alert error__message">
+        <div *ngIf="addressField.errors.required">
+          {{addressReq}}
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="d-flex justify-content-start input__label">
+        {{addressCityLabel}}
+      </div>
+      <div class="pt-2">
+        <input required type="text" ngModel name="addressCityField" [(ngModel)]="eventsService.editor.mapAddress.city" #addressCityField="ngModel" class="form-control Field" placeholder="{{addressCityPlace}}" (blur)="addressChanged()" />
+      </div>
+      <div *ngIf="addressCityField.touched && addressCityField.invalid" class="alert error__message">
+        <div *ngIf="addressCityField.errors.required">
+          {{addressCityReq}}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="(addressField.touched || addressCityField.touched) && !eventsService.editor.mapAddress.verified" class="alert error__message">
+      {{latlngReq}}
+    </div>
+
+  </div>
+
+  <div class="d-flex justify-content-center mb-4">
+    <button (click)="saveSubmit()" class="primary__button" [disabled]="saveDisabled()">{{saveLabel}}</button>
+  </div>
+
+</form>
